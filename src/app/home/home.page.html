@@ -1,20 +1,35 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Schimpfmeister</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Schimpfmeister</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="content-wrapper">
+    <div class="insult-card" *ngIf="!fehlerNachricht; else fehlerTemplate">
+      <p class="word line-one">{{ adjektiv }}</p>
+      <p class="word line-two">{{ substantiv }}</p>
+    </div>
+
+    <ng-template #fehlerTemplate>
+      <div class="insult-card error-card">
+        <p class="error-text">{{ fehlerNachricht }}</p>
+      </div>
+    </ng-template>
+
+    <ion-button
+      expand="block"
+      size="large"
+      (click)="schimpfwortLaden()"
+      [disabled]="istAmLaden"
+    >
+      {{ istAmLaden ? "Lade..." : "Neue Laden" }}
+    </ion-button>
   </div>
 </ion-content>

@@ -7,8 +7,8 @@ um die benötigten Tabellen zu erzeugen und mit Einträgen zu befüllen.
 
 <br>
 
-Danach kann die in der Datei [EdgeFunction.ts](EdgeFunction.ts) definierte
-*Edge Function* über die Web-Oberfläche von Supabase deployed werden.
+Danach kann die in der Datei [EdgeFunction.ts](EdgeFunction.ts) definierte *Edge Function* über
+die Web-Oberfläche von Supabase deployed werden.
 
 <br>
 
