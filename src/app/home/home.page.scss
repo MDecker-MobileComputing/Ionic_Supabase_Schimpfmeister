@@ -27,7 +27,7 @@
 }
 
 .zeile-substantiv {
-  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  font-size: clamp(2rem, 8vw, 3rem);
   margin-top: 8px;
 }
 
@@ -39,4 +39,8 @@
   margin: 0;
   color: #9a1f17;
   font-weight: 600;
+}
+
+ion-button {
+  font-size: 1.6rem;
 }
