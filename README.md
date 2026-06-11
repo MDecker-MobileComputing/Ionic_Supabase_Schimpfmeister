@@ -14,6 +14,16 @@ siehe [dieses Repo](https://github.com/MDecker-MobileComputing/Android_Schimpfme
 
 ----
 
+## Screenshots ##
+
+<br>
+
+![Screenshot 1](screenshot_1.png) &nbsp; ![Screenshot 2](screenshot_2.png)
+
+<br>
+
+----
+
 ## License ##
 
 <br>
