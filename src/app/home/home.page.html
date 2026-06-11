@@ -12,14 +12,14 @@
   </ion-header>
 
   <div class="content-wrapper">
-    <div class="insult-card" *ngIf="!fehlerNachricht; else fehlerTemplate">
-      <p class="word line-one">{{ adjektiv }}</p>
-      <p class="word line-two">{{ substantiv }}</p>
+    <div class="schimpfwort-card" *ngIf="!fehlerNachricht; else fehlerTemplate">
+      <p class="wort zeile-adjektiv"  >{{ adjektiv }}</p>
+      <p class="wort zeile-substantiv">{{ substantiv }}</p>
     </div>
 
     <ng-template #fehlerTemplate>
-      <div class="insult-card error-card">
-        <p class="error-text">{{ fehlerNachricht }}</p>
+      <div class="schimpfwort-card fehler-card">
+        <p class="fehler-text">{{ fehlerNachricht }}</p>
       </div>
     </ng-template>
 

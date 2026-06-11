@@ -7,7 +7,7 @@
   gap: 24px;
 }
 
-.insult-card {
+.schimpfwort-card {
   border-radius: 16px;
   background: linear-gradient(135deg, #f5f7ff, #fff7ea);
   padding: 28px 20px;
@@ -15,27 +15,27 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.word {
+.wort {
   margin: 0;
   color: #1a1a1a;
   font-weight: 800;
   line-height: 1.2;
 }
 
-.line-one {
+.zeile-adjektiv {
   font-size: clamp(2rem, 8vw, 3rem);
 }
 
-.line-two {
+.zeile-substantiv {
   font-size: clamp(1.8rem, 7vw, 2.6rem);
   margin-top: 8px;
 }
 
-.error-card {
+.fehler-card {
   background: #fff1f0;
 }
 
-.error-text {
+.fehler-text {
   margin: 0;
   color: #9a1f17;
   font-weight: 600;
