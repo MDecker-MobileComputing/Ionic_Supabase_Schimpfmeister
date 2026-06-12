@@ -9,6 +9,8 @@ Bei diesen Daten handelt es sich um lustige Schimpfwörter, die mit dem [Schimpf
 
 Es gibt auch eine native Android-Implementierung von "Schimpfmeister", die die Schimpfwörter lokal erzeugt,
 siehe [dieses Repo](https://github.com/MDecker-MobileComputing/Android_Schimpfmeister).
+Eine Version dieser App ist im offizielle Android-App-Store *Google Play* veröffentlicht,
+siehe [hier](https://play.google.com/store/apps/details?id=de.mide.android.schimpfmeister).
 
 <br>
 
