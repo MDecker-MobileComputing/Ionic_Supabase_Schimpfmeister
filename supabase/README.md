@@ -14,13 +14,12 @@ die Web-Oberfläche von Supabase deployed werden.
 
 [cURL](https://www.ionos.de/digitalguide/server/tools/einstieg-in-curl-in-linux/)-Aufruf zum Test der Funktion:
 ```
-curl -L -X POST 'https://qlljavhtbzufbfunoxoz.supabase.co/functions/v1/super-worker' \
+curl -X GET 'https://qlljavhtbzufbfunoxoz.supabase.co/functions/v1/super-worker' \
   -H 'apikey: sb_publishable_...' \
-  -H 'Content-Type: application/json' \
-  --data '{"name":"Functions"}'
+  -H 'Content-Type: application/json'
 ```
 
-Beispiel für Ergebnis:
+Beispiel für Ergebnis (nachträglich formatiert):
 ```
 {
 	"adjektiv"  : "Nörgelndes",

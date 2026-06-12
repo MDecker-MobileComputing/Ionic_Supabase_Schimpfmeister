@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 type SchimpfAntwort = {
   adjektiv: string;
@@ -14,25 +14,34 @@ const API_KEY = "sb_publishable_1aT2zuhIJGmFU6P3KwppRw_pz31R54G";
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
   public adjektiv        = "...";
   public substantiv      = "...";
   public istAmLaden      = false;
-  public fehlerNachricht = '';
+  public fehlerNachricht = "";
 
-  constructor() {
 
-    void this.schimpfwortLaden();
+  /**
+   * Beim Initialisieren der Komponente wird ein Schimpfwort geladen.
+   */
+  ngOnInit() {
+
+    this.schimpfwortLaden();
   }
 
+
+  /**
+   * Diese Methode lädt ein neues Schimpfwort von der API.
+   * Wird u.a. als Button-Event-Handler verwendet.
+   */
   async schimpfwortLaden(): Promise<void> {
 
-    this.istAmLaden = true;
-    this.fehlerNachricht = '';
+    this.istAmLaden      = true;
+    this.fehlerNachricht = "";
 
     try {
-      const response = await fetch( API_URL, {
+      const antwort = await fetch( API_URL, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -40,12 +49,12 @@ export class HomePage {
         }
       });
 
-      if ( !response.ok ) {
+      if ( !antwort.ok ) {
 
-        throw new Error( "API-Fehler: " + response.statusText );
+        throw new Error( "API-Fehler: " + antwort.statusText );
       }
 
-      const jsonAntwort = await response.json();
+      const jsonAntwort = await antwort.json();
       const payload     = jsonAntwort as Partial<SchimpfAntwort>;
 
       if ( !payload.adjektiv || !payload.substantiv ) {
@@ -58,7 +67,7 @@ export class HomePage {
 
     } catch ( fehler ) {
 
-      this.fehlerNachricht = 'Schimpfwort konnte nicht geladen werden.';
+      this.fehlerNachricht = "Schimpfwort konnte nicht geladen werden.";
 
     } finally {
 
