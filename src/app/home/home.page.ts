@@ -33,12 +33,11 @@ export class HomePage {
 
     try {
       const response = await fetch( API_URL, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           "apikey"      : API_KEY
-        },
-        body: JSON.stringify({ name: 'Functions' }),
+        }
       });
 
       if ( !response.ok ) {

@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const corsKopfzeilen = {
   "Access-Control-Allow-Origin" : "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
 };
 
 type GrammatischesGeschlecht = "MASKULINUM" | "FEMININUM" | "NEUTRUM";
@@ -44,6 +44,7 @@ function dekliniereAdjektivNachGeschlecht( adjektiv: string, geschlecht: Grammat
 
     return `${adjektiv}s`;
   }
+
   return adjektiv;
 }
 
@@ -94,7 +95,7 @@ Deno.serve( async ( anfrage ) => {
     return new Response( "ok", { headers: corsKopfzeilen } );
   }
 
-  if ( anfrage.method !== "GET" && anfrage.method !== "POST" ) {
+  if ( anfrage.method !== "GET" ) {
 
     return new Response( JSON.stringify({ error: "Methode nicht erlaubt" }), {
       status : 405,
