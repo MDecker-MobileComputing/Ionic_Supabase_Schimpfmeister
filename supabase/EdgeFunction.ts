@@ -1,130 +1,133 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const corsHeaders = {
+const corsKopfzeilen = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
-type Genus = "MASKULINUM" | "FEMININUM" | "NEUTRUM";
+type GrammatischesGeschlecht = "MASKULINUM" | "FEMININUM" | "NEUTRUM";
 
-const GENUS_VALUES: Genus[] = ["MASKULINUM", "FEMININUM", "NEUTRUM"];
+const GESCHLECHTS_WERTE: GrammatischesGeschlecht[] = ["MASKULINUM", "FEMININUM", "NEUTRUM"];
 
-const END_TABLE_BY_GENUS: Record<Genus, string> = {
+const ENDTABELLE_NACH_GESCHLECHT: Record<GrammatischesGeschlecht, string> = {
   MASKULINUM: "schimpfmeister_substantiv_maskulinum",
-  FEMININUM: "schimpfmeister_substantiv_femininum",
-  NEUTRUM: "schimpfmeister_substantiv_neutrum",
+  FEMININUM : "schimpfmeister_substantiv_femininum",
+  NEUTRUM   : "schimpfmeister_substantiv_neutrum"
 };
 
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
-const SUPABASE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
+const SUPABASE_ADRESSE = Deno.env.get("SUPABASE_URL") ?? "";
+const SUPABASE_SCHLUESSEL = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
   ?? Deno.env.get("SUPABASE_ANON_KEY")
   ?? "";
 
-if (!SUPABASE_URL || !SUPABASE_KEY) {
+if ( !SUPABASE_ADRESSE || !SUPABASE_SCHLUESSEL ) {
 
-  throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY env vars.");
+  throw new Error( "Fehlende Umgebungsvariablen: SUPABASE_URL oder SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY." );
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseKlient = createClient( SUPABASE_ADRESSE, SUPABASE_SCHLUESSEL );
 
-function pickRandomGenus(): Genus {
+function waehleZufaelligesGeschlecht(): GrammatischesGeschlecht {
 
-  const index = Math.floor(Math.random() * GENUS_VALUES.length);
-  return GENUS_VALUES[index];
+  const index = Math.floor( Math.random() * GESCHLECHTS_WERTE.length );
+  return GESCHLECHTS_WERTE[ index ];
 }
 
-function declineAdjectiveByGenus(adjektiv: string, genus: Genus): string {
+function dekliniereAdjektivNachGeschlecht( adjektiv: string, geschlecht: GrammatischesGeschlecht ): string {
 
-  if (genus === "MASKULINUM") {
+  if ( geschlecht === "MASKULINUM" ) {
 
     return `${adjektiv}r`;
   }
-  if (genus === "NEUTRUM") {
+  if ( geschlecht === "NEUTRUM" ) {
 
     return `${adjektiv}s`;
   }
   return adjektiv;
 }
 
-async function fetchRandomValue(table: string, column: "adjektiv" | "substantiv"): Promise<string> {
+async function holeZufaelligenWert( tabellenname: string, spaltenname: "adjektiv" | "substantiv" ): Promise<string> {
 
-  const { count, error: countError } = await supabase
-    .from(table)
-    .select(column, { count: "exact", head: true });
+  const { count: anzahl, error: anzahlFehler } =
+                                    await supabaseKlient
+                                              .from( tabellenname )
+                                              .select( spaltenname, { count: "exact", head: true } );
+  if ( anzahlFehler ) {
 
-  if (countError) {
-
-    throw new Error(`Count failed for table ${table}: ${countError.message}`);
+    throw new Error( `Zaehlen fuer Tabelle ${tabellenname} fehlgeschlagen: ${anzahlFehler.message}` );
   }
 
-  if (!count || count < 1) {
+  if ( !anzahl || anzahl < 1 ) {
 
-    throw new Error(`No rows found in table ${table}.`);
+    throw new Error( `Keine Zeilen in Tabelle ${tabellenname} gefunden.` );
   }
 
-  const randomIndex = Math.floor(Math.random() * count);
+  const zufallsIndex = Math.floor( Math.random() * anzahl );
 
-  const { data, error } = await supabase
-    .from(table)
-    .select(column)
-    .order("id", { ascending: true })
-    .range(randomIndex, randomIndex)
-    .limit(1)
-    .maybeSingle();
+  const { data: daten, error: fehler } =
+                            await supabaseKlient
+                                      .from( tabellenname )
+                                      .select( spaltenname )
+                                      .order( "id", { ascending: true } )
+                                      .range( zufallsIndex, zufallsIndex )
+                                      .limit( 1 )
+                                      .maybeSingle();
+  if ( fehler ) {
 
-  if (error) {
-
-    throw new Error(`Select failed for table ${table}: ${error.message}`);
+    throw new Error( `Auswahl aus Tabelle ${tabellenname} fehlgeschlagen: ${fehler.message}` );
   }
 
-  const value = data?.[column];
-  if (!value || typeof value !== "string") {
-    throw new Error(`No valid ${column} value found in table ${table}.`);
+  const wert = daten?.[spaltenname];
+  if ( !wert || typeof wert !== "string" ) {
+
+    throw new Error( `Kein gueltiger ${spaltenname}-Wert in Tabelle ${tabellenname} gefunden.` );
   }
 
-  return value;
+  return wert;
 }
 
-Deno.serve(async (req) => {
+Deno.serve(async (anfrage) => {
 
-  if (req.method === "OPTIONS") {
+  if ( anfrage.method === "OPTIONS" ) {
 
-    return new Response("ok", { headers: corsHeaders });
+    return new Response( "ok", { headers: corsKopfzeilen } );
   }
 
-  if (req.method !== "GET" && req.method !== "POST") {
-    
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+  if ( anfrage.method !== "GET" && anfrage.method !== "POST" ) {
+
+    return new Response( JSON.stringify({ error: "Methode nicht erlaubt" }), {
       status: 405,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsKopfzeilen, "Content-Type": "application/json" },
     });
   }
 
   try {
-    const genus = pickRandomGenus();
 
-    const baseAdjektiv = await fetchRandomValue("schimpfmeister_adjektive", "adjektiv");
-    const adjektiv = declineAdjectiveByGenus(baseAdjektiv, genus);
+    const geschlecht = waehleZufaelligesGeschlecht();
 
-    const startSubstantiv = await fetchRandomValue("schimpfmeister_anfangssubstantive", "substantiv");
-    const endSubstantiv = await fetchRandomValue(END_TABLE_BY_GENUS[genus], "substantiv");
+    const grundAdjektiv = await holeZufaelligenWert( "schimpfmeister_adjektive", "adjektiv" );
+    const adjektiv      = dekliniereAdjektivNachGeschlecht( grundAdjektiv, geschlecht );
+
+    const anfangsSubstantiv = await holeZufaelligenWert( "schimpfmeister_anfangssubstantive"   , "substantiv" );
+    const endSubstantiv     = await holeZufaelligenWert( ENDTABELLE_NACH_GESCHLECHT[geschlecht], "substantiv" );
 
     return new Response(
       JSON.stringify({
         adjektiv,
-        substantiv: `${startSubstantiv}${endSubstantiv}`,
+        substantiv: `${anfangsSubstantiv}${endSubstantiv}`,
       }),
       {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsKopfzeilen, "Content-Type": "application/json" },
       },
     );
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+  } catch ( fehler ) {
 
-    return new Response(JSON.stringify({ error: message }), {
+    const fehlermeldung = fehler instanceof Error ? fehler.message : "Unbekannter Fehler";
+
+    return new Response(JSON.stringify({ error: fehlermeldung }), {
       status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsKopfzeilen, "Content-Type": "application/json" },
     });
   }
 });
