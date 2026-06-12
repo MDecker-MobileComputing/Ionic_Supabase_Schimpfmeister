@@ -16,7 +16,7 @@ const ENDTABELLE_NACH_GESCHLECHT: Record<GrammatischesGeschlecht, string> = {
   NEUTRUM   : "schimpfmeister_substantiv_neutrum"
 };
 
-const SUPABASE_ADRESSE = Deno.env.get( "SUPABASE_URL" ) ?? "";
+const SUPABASE_ADRESSE    = Deno.env.get( "SUPABASE_URL" ) ?? "";
 const SUPABASE_SCHLUESSEL = Deno.env.get( "SUPABASE_SERVICE_ROLE_KEY" )
   ?? Deno.env.get( "SUPABASE_ANON_KEY" )
   ?? "";

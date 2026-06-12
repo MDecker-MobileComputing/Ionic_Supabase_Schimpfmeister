@@ -41,6 +41,7 @@ export class HomePage implements OnInit {
     this.fehlerNachricht = "";
 
     try {
+
       const antwort = await fetch( API_URL, {
         method: "GET",
         headers: {
