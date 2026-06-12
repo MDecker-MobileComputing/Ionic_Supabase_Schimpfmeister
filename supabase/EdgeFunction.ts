@@ -1,14 +1,14 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsKopfzeilen = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin" : "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
 type GrammatischesGeschlecht = "MASKULINUM" | "FEMININUM" | "NEUTRUM";
 
-const GESCHLECHTS_WERTE: GrammatischesGeschlecht[] = ["MASKULINUM", "FEMININUM", "NEUTRUM"];
+const GESCHLECHTS_WERTE: GrammatischesGeschlecht[] = [ "MASKULINUM", "FEMININUM", "NEUTRUM" ];
 
 const ENDTABELLE_NACH_GESCHLECHT: Record<GrammatischesGeschlecht, string> = {
   MASKULINUM: "schimpfmeister_substantiv_maskulinum",
@@ -16,9 +16,9 @@ const ENDTABELLE_NACH_GESCHLECHT: Record<GrammatischesGeschlecht, string> = {
   NEUTRUM   : "schimpfmeister_substantiv_neutrum"
 };
 
-const SUPABASE_ADRESSE = Deno.env.get("SUPABASE_URL") ?? "";
-const SUPABASE_SCHLUESSEL = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
-  ?? Deno.env.get("SUPABASE_ANON_KEY")
+const SUPABASE_ADRESSE = Deno.env.get( "SUPABASE_URL" ) ?? "";
+const SUPABASE_SCHLUESSEL = Deno.env.get( "SUPABASE_SERVICE_ROLE_KEY" )
+  ?? Deno.env.get( "SUPABASE_ANON_KEY" )
   ?? "";
 
 if ( !SUPABASE_ADRESSE || !SUPABASE_SCHLUESSEL ) {
@@ -87,7 +87,7 @@ async function holeZufaelligenWert( tabellenname: string, spaltenname: "adjektiv
   return wert;
 }
 
-Deno.serve(async (anfrage) => {
+Deno.serve( async ( anfrage ) => {
 
   if ( anfrage.method === "OPTIONS" ) {
 
@@ -97,7 +97,7 @@ Deno.serve(async (anfrage) => {
   if ( anfrage.method !== "GET" && anfrage.method !== "POST" ) {
 
     return new Response( JSON.stringify({ error: "Methode nicht erlaubt" }), {
-      status: 405,
+      status : 405,
       headers: { ...corsKopfzeilen, "Content-Type": "application/json" },
     });
   }
@@ -125,9 +125,9 @@ Deno.serve(async (anfrage) => {
 
     const fehlermeldung = fehler instanceof Error ? fehler.message : "Unbekannter Fehler";
 
-    return new Response(JSON.stringify({ error: fehlermeldung }), {
+    return new Response( JSON.stringify( { error: fehlermeldung } ), {
       status: 500,
-      headers: { ...corsKopfzeilen, "Content-Type": "application/json" },
+      headers: { ...corsKopfzeilen, "Content-Type": "application/json" }
     });
   }
 });
