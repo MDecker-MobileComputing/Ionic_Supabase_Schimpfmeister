@@ -3,7 +3,8 @@
 <br>
 
 Dieses Repository enthält eine [Ionic-App](https://ionicframework.com/) mit [Angular](https://angular.io/), die demonstriert, wie über REST Daten von einer *Edge Function* auf Supabase abgerufen werden können.
-Bei diesen Daten handelt es sich um lustige Schimpfwörter, die mit dem [Schimpfolino](https://github.com/NikolaiRadke/Schimpfolino/)-Algorithmus von Nikolai Radke erzeugt werden.
+Bei diesen Daten handelt es sich um lustige Schimpfwörter, die mit dem [Schimpfolino](https://github.com/NikolaiRadke/Schimpfolino/)-Algorithmus von 
+[Nikolai Radke](https://www.nikolairadke.de/) erzeugt werden.
 
 <br>
 
